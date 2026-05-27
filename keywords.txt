@@ -1,0 +1,44 @@
+#######################################
+# Syntax Coloring Map
+#######################################
+
+#######################################
+# Library (KEYWORD3)
+#######################################
+
+MLPico	KEYWORD3	MLPico
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+getCategoricalCrossEntropy	KEYWORD2
+getBinaryCrossEntropy		KEYWORD2
+getMeanSqrdError		KEYWORD2
+ComputeSummedErrors		KEYWORD2
+
+feedforward_individual		KEYWORD2
+feedforward			KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+ACTIVATION__PER_LAYER		LITERAL1
+MLPICO_OPTIMIZE			LITERAL1
+
+SIGMOID				LITERAL1
+TANH				LITERAL1
+RELU				LITERAL1
+LEAKYELU			LITERAL1
+ELU				LITERAL1
+SELU				LITERAL1
+SOFTMAX				LITERAL1
+IDENTITY			LITERAL1
+BINARYSTEP			LITERAL1
+SOFTPLUS			LITERAL1
+SILU				LITERAL1
+GELU				LITERAL1
+MISH				LITERAL1
+GAUSSIAN			LITERAL1
+
+LOVE				LITERAL1
+love				LITERAL1

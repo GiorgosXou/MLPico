@@ -1,0 +1,12 @@
+[
+  {
+    "file": "main.c",
+    "arguments": [
+      "gcc",
+      "main.c",
+      "-std=c89",
+      "-DMLPICO_IMPLEMENTATION"
+    ],
+    "directory": "/home/xou/Desktop/xou/programming/c/trash/mlpico"
+  }
+]

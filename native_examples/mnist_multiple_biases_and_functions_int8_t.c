@@ -37,13 +37,13 @@ const uint8_t activation_functions[] = {
 };
 
 
-/* Neuron counts per layer: input=3, hidden=4, output=1 */
+/* Neuron counts per layer: input=784, hidden=12, hidden=9, output=10 */
 const unsigned int layers[] = {784, 12, 9, 10};
 /* Buffer size = (largest odd-indexed layer) + (largest even-indexed layer excluding the 0th one) =  12 + 9 thanks to feedforward_individual */
 float buffer[21];
 /* Just a semantic alias for buffer */
 float *inputs = buffer;
-/* Points somewhere inside buffer after the final layer computation (in our case at index 6) */
+/* Points somewhere inside buffer after the final layer computation (in our case at index 0) */
 float *output; 
 
 

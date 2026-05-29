@@ -15,7 +15,7 @@ A general-purpose header-only statically-allocatable [MLP *(Multi-Layer Perceptr
 
 ## Usage
 
-See examples, [for arduino](https://github.com/GiorgosXou/MLPico/tree/master/examples) or [native-os\\bare-metal](https://github.com/GiorgosXou/MLPico/tree/master/native_examples).
+See examples, [for arduino](https://github.com/GiorgosXou/MLPico/tree/main/examples) or [native-os\\bare-metal](https://github.com/GiorgosXou/MLPico/tree/main/native_examples).
 
 
 ## Training

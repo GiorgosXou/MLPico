@@ -9,7 +9,7 @@ A general-purpose header-only statically-allocatable [MLP *(Multi-Layer Perceptr
 2. Supports int-quantized weights.
 3. Blazingly fast and portable.
 4. Supports Arduino, too.
-5. Memory-efficienct.
+5. Memory-efficient.
 6. Simple in use.
 
 
@@ -266,7 +266,7 @@ May love shine light to your heart.
 
 
 ## Outro
-If you need something more feature-complete and [powerfull](https://github.com/GiorgosXou/ATTiny85-MNIST-RNN-EEPROM); I then recommened you to take a *(non-judgemental)* look into my [NeuralNetworks library](https://github.com/GiorgosXou/NeuralNetworks) *(that I based MLPico on)*.
+If you need something more feature-complete and [powerful](https://github.com/GiorgosXou/ATTiny85-MNIST-RNN-EEPROM); I then recommend you to take a *(non-judgmental)* look into my [NeuralNetworks library](https://github.com/GiorgosXou/NeuralNetworks) *(that I based MLPico on)*.
 
 
 <i><sub> (This library is not vibe coded. [Here's the proof](https://github.com/GiorgosXou/NeuralNetworks/commit/4d1f3205afb7f5cbc5378e6043344151c52c9cea) that I'm developing MLP algorithms since 2019; way before the AI-slop epidemic. and [here](https://github.com/GiorgosXou/NeuralNetworks#-research)'s the whole research behind it) </sub></i>

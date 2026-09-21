@@ -13,9 +13,110 @@ A general-purpose header-only statically-allocatable [MLP *(Multi-Layer Perceptr
 6. Simple in use.
 
 
-## Usage
+## Getting Started
 
-See examples, [for arduino](https://github.com/GiorgosXou/MLPico/tree/main/examples) or [native-os\\bare-metal](https://github.com/GiorgosXou/MLPico/tree/main/native_examples).
+1. See [examples for arduino](https://github.com/GiorgosXou/MLPico/tree/main/examples) or [native-os\\bare-metal](https://github.com/GiorgosXou/MLPico/tree/main/native_examples).
+2. *[Click here to skip directly to "training" section.](#training)*
+
+## Documentation
+
+#### Macro Optimizations:
+To enables or disable core functionality, simply `#define MLPICO_OPTIMIZE` before including the header file, and set each option's bit to `1` or `0` accordingly. Multiple options can be combined in the same bitmask. 
+
+For example:
+
+```c
+#define MLPICO_OPTIMIZE B10011000 /* == PROGMEM + int8_t quantization + no biases */
+```
+
+The available options are:
+
+```c
+#define MLPICO_OPTIMIZE B10000000 /* Enables PROGMEM compatibility for `__AVR__` MCUs */
+#define MLPICO_OPTIMIZE B01000000 /* Enables `double` instead of `float` precision    */
+#define MLPICO_OPTIMIZE B00100000 /* Enables `int16_t` quantization                   */
+#define MLPICO_OPTIMIZE B00010000 /* Enables `int8_t` quantization                    */
+#define MLPICO_OPTIMIZE B00001000 /* Disables the use of biases                       */
+#define MLPICO_OPTIMIZE B00000100 /* Enables the use of multiple biases               */
+```
+
+<sup> *(See also examples: [progmem][1], [quantization][2], [no biases][3], [multiple biases][4])* </sup> 
+
+#### Activation Functions:
+To enable a single\core activation-function *(which will persist and be used internally across all instance of `MLPico`)*, simply `#define` the name of the desired activation-function from the list below:
+
+```c
+ #define SIGMOID     /* return (1 / (1 + exp(-x));                        (Default)  */
+ #define TANH        /* return ((exp(2*x) - 1) / (exp(2*x) + 1);                     */
+ #define RELU        /* return ((x > 0) ? x : 0;                                     */
+ #define LEAKYRELU   /* return ((x > 0) ? x : alpha_leaky * x;* x;                   */
+ #define ELU         /* return (x > 0) ? x : alpha_elu  * (exp(x) - 1);              */
+ #define SELU        /* return (x>=0)?x*lamda_selu:lamda_selu*alpha_selu*(exp(x)-1); */
+ #define IDENTITY    /* return x;                                                    */
+ #define BINARYSTEP  /* return (x < 0) ? 0 : 1;                                      */
+ #define SOFTPLUS    /* return log(1 + exp(x));                                      */
+ #define SILU        /* return x / (1 + exp(-x));                                    */
+ #define GELU        /* return (1/2) * x * (1 + erf(x / sqrt(x)));                   */
+ #define MISH        /* return x * tanh(log(1 + exp(x)));                            */
+ #define GAUSSIAN    /* return exp(-(x*x));                                          */
+```
+
+ In case you want to use different activation-functions across layers or instances you simply:
+```c
+#define ACTIVATION__PER_LAYER /* Allows multiple functions to be used once `#define` */
+```
+and then create a list of your activation-functions for your `MLPico` instance like:
+```c
+#define ACTIVATION__PER_LAYER 
+        #define SIGMOID
+        #define TANH
+        #define ELU
+        #define BINARYSTEP
+        /* #define ... */
+#include <mlpico.h>
+
+/* activation_function for each layer-to-layer */
+const uint8_t activation_functions[] = {
+  idx_sigmoid,     /* Idx 0 = Sigmoid    | Layers : 0 -> 1 */
+  idx_tanh,        /* Idx 1 = Tanh       | Layers : 1 -> 2 */
+  idx_tanh,        /* Idx 1 = Tanh       | Layers : 2 -> 3 */
+  idx_elu,         /* Idx 2 = Elu        | Layers : 3 -> 4 */
+  idx_binarystep,  /* Idx 3 = BinaryStep | Layers : 4 -> 5 */
+}; /* ... */
+
+void main(){ MLPico mlp = {buffer, activation_functions, /* ... */ }; }
+```
+
+
+ <sup> *(See also examples: [multiple functions][5], [single core function][6])* </sup> 
+
+#### Main Struct & Functions:
+Note that wherever you see `DFLOAT`, it means `float` by default. If double precision is enabled *(via `MLPICO_OPTIMIZE B01`)*, `DFLOAT` instead means `double`. The same goes for `IDFLOAT`, with the only difference being that when int-quantization is enabled it instead means `int16_t` or `int8_t` accordingly.
+
+```c
+typedef struct
+{
+    DFLOAT* io_buf; /* in-out circular-buffer, roughly defined by the 2 largest layers */
+    #if defined(ACTIVATION__PER_LAYER)
+        const uint8_t *acts; /* an array of activation function IDs (aka. idx_...) */
+    #endif
+    #if !defined(NO_BIAS)
+        const IDFLOAT* biases; /* bias or biases per layer-to-layer */
+    #endif
+    const IDFLOAT* weights; /* `int8_t`, `int16_t`, `double` or (default) `float`*/
+    const unsigned int* layers;
+    const unsigned int largest_input; /* largest even-indexed layer [...] */
+    const uint8_t number_of_layers;
+}
+MLPico;
+```
+
+```c
+DFLOAT* feedforward(const MLPico* mlp);
+DFLOAT* feedforward_individual(const MLPico* mlp, const DFLOAT _input, const unsigned int _j);
+```
+
+<sup>(see also [examples for arduino](https://github.com/GiorgosXou/MLPico/tree/main/examples) or [native-os\\bare-metal](https://github.com/GiorgosXou/MLPico/tree/main/native_examples).)</sup>
 
 
 ## Training
@@ -258,6 +359,10 @@ for i in range(len(inputs)):
 ```
 
 
+## Research
+
+- My reseach is available [here](https://github.com/GiorgosXou/NeuralNetworks#-research).
+
 ## Donate
 May love shine light to your heart. 
 
@@ -271,3 +376,11 @@ If you need something more feature-complete and [powerful](https://github.com/Gi
 
 <i><sub> (This library is not vibe coded. [Here's the proof](https://github.com/GiorgosXou/NeuralNetworks/commit/4d1f3205afb7f5cbc5378e6043344151c52c9cea) that I'm developing MLP algorithms since 2019; way before the AI-slop epidemic. and [here](https://github.com/GiorgosXou/NeuralNetworks#-research)'s the whole research behind it) </sub></i>
 
+
+
+[1]: ./examples/mnist_progmem_multiple_biases_and_functions_int8_t/mnist_progmem_multiple_biases_and_functions_int8_t.ino
+[2]: ./examples/xor_gate_multiple_biases_progmem_int8_t/xor_gate_multiple_biases_progmem_int8_t.ino
+[3]: ./examples/xor_gate_no_biases/xor_gate_no_biases.ino
+[4]: ./examples/xor_gate_multiple_biases/xor_gate_multiple_biases.ino
+[5]: ./examples/xor_gate_no_biases_multiple_functions/xor_gate_no_biases_multiple_functions.ino#L26-L39
+[6]: ./examples/xor_gate_no_biases/xor_gate_no_biases.ino#L22

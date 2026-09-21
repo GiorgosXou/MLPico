@@ -345,10 +345,10 @@
         #define SUPPORTS_CLIPPING /* i mean  "supports" / usually-needs  ? */
         #define LEAKYRELU LeakyReLU
         #define AN_4 |> LeakyReLU 
-        extern DFLOAT AlphaLeaky;
+        extern DFLOAT alpha_leaky;
         #if defined(MLPICO_IMPLEMENTATION)
-            DFLOAT AlphaLeaky = 0.01;
-            DFLOAT leakyrelu (const DFLOAT x) { return (x > 0) ? x : AlphaLeaky * x; }
+            DFLOAT alpha_leaky = 0.01;
+            DFLOAT leakyrelu (const DFLOAT x) { return (x > 0) ? x : alpha_leaky * x; }
         #endif
     #endif
     #if defined(ELU) && (defined(ACTIVATION__PER_LAYER) || !defined(ACTIVATION))
@@ -365,10 +365,10 @@
         #define SUPPORTS_CLIPPING /* i mean  "supports" / usually-needs  ? */
         #define ELU ELU
         #define AN_5 |> ELU 
-        extern DFLOAT AlphaELU;
+        extern DFLOAT alpha_elu;
         #if defined(MLPICO_IMPLEMENTATION)
-            DFLOAT AlphaELU = 1.0;
-            DFLOAT elu (const DFLOAT x) { return (x > 0) ? x : AlphaELU  * (exp(x) - 1); }
+            DFLOAT alpha_elu = 1.0;
+            DFLOAT elu (const DFLOAT x) { return (x > 0) ? x : alpha_elu  * (exp(x) - 1); }
         #endif
     #endif
     #if defined(SELU) && (defined(ACTIVATION__PER_LAYER) || !defined(ACTIVATION))

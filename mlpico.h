@@ -91,7 +91,9 @@
     #define TYPE_MEMMORY_READ_IDFLOAT(x) (x)
     #define MULTIPLY_BY_INT_IF_QUANTIZATION
     #if defined(MLPICO_OPTIMIZE)
-        #if ((MLPICO_OPTIMIZE | 0B01111111) == 0B11111111)
+
+        /* 0B01111111 */
+        #if ((MLPICO_OPTIMIZE | 0x7f) == 0xff)
             #undef MSG1
             #undef MEM_SUBSTRATE_MSG
             #if defined(__AVR__) /* NOTE: ##38 */
@@ -114,7 +116,8 @@
             #define MEM_SUBSTRATE_MSG [𝗣𝗥𝗢𝗚𝗠𝗘𝗠]
         #endif
 
-        #if ((MLPICO_OPTIMIZE | 0B10111111) == 0B11111111)
+        /* 0B10111111 */
+        #if ((MLPICO_OPTIMIZE | 0xbf) == 0xff)
             #include <float.h>
             #if (DBL_MANT_DIG == FLT_MANT_DIG) /* https://stackoverflow.com/questions/8751109 */
                 #error "💥 Your device doesn't support 64bit/8byte double-precision !!! | (DBL_MANT_DIG == FLT_MANT_DIG)"
@@ -139,8 +142,11 @@
             #define MSG2 \n- " [0B01000000] [𝗥𝗲𝗺𝗶𝗻𝗱𝗲𝗿] Using 64bit\8byte double-precision (USE_64_BIT_DOUBLE)."
         #endif  
 
-        #if (((MLPICO_OPTIMIZE | 0B11011111) == 0B11111111) || ((MLPICO_OPTIMIZE | 0B11101111) == 0B11111111)) 
-            #if (((MLPICO_OPTIMIZE | 0B11011111) == 0B11111111) && ((MLPICO_OPTIMIZE | 0B11101111) == 0B11111111)) 
+        /* 0B11011111 , 0B11101111 */
+        #if (((MLPICO_OPTIMIZE | 0xdf) == 0xff) || ((MLPICO_OPTIMIZE | 0xef) == 0xff))
+
+            /* 0B11011111 , 0B11101111 */
+            #if (((MLPICO_OPTIMIZE | 0xdf) == 0xff) && ((MLPICO_OPTIMIZE | 0xef) == 0xff))
                 #error "💥 You can't use both int16_t and int8_t! use either 16 or 8."
             #endif
             #if defined(USE_64_BIT_DOUBLE)
@@ -151,7 +157,9 @@
             #undef TYPE_MEMMORY_READ_IDFLOAT 
             #undef MULTIPLY_BY_INT_IF_QUANTIZATION
             #undef CAST_TO_LLONG_IF_NOT_INT_QUANTIZATION
-            #if (MLPICO_OPTIMIZE | 0B11011111) == 0B11111111
+
+            /* 0B11011111 */
+            #if (MLPICO_OPTIMIZE | 0xdf) == 0xff
                 #define MSG3 \n- " [0B00100000] [𝗥𝗲𝗺𝗶𝗻𝗱𝗲𝗿] Using int16_t quantization."
                 #define IDFLOAT int16_t
                 #define TYPE_MEMMORY_READ_IDFLOAT(x) pgm_read_int16_t(&x)
@@ -176,9 +184,10 @@
                 #define TYPE_MEMMORY_READ_IDFLOAT(x) (x)
             #endif
 
+            /* 0B11011111 */
             /* FLOAT RANGE = (100.0) - (-100.0) | MAX - MIN */
             /* INT   RANGE = (32767) - (-32768) | MAX - MIN */
-            #if (MLPICO_OPTIMIZE | 0B11011111) == 0B11111111
+            #if (MLPICO_OPTIMIZE | 0xdf) == 0xff
                 #if !defined(Q_FLOAT_RANGE)
                     #define Q_FLOAT_RANGE 200.0
                 #endif
@@ -199,7 +208,8 @@
             */
         #endif
 
-        #if ((MLPICO_OPTIMIZE | 0B11110111) == 0B11111111)
+        /* 0B11110111 */
+        #if ((MLPICO_OPTIMIZE | 0xf7) == 0xff)
             #undef MSG4
             #undef OPTIONAL_BIAS
             #define OPTIONAL_BIAS(x)
@@ -208,7 +218,8 @@
             #define NO_BIAS
         #endif
 
-        #if ((MLPICO_OPTIMIZE | 0B11111011) == 0B11111111)
+        /* 0B11111011 */
+        #if ((MLPICO_OPTIMIZE | 0xfb) == 0xff)
             #if defined(NO_BIAS)
                 #error "💥 You can't have both NO_BIAS and MULTIPLE_BIASES_PER_LAYER."
             #endif

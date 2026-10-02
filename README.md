@@ -32,13 +32,16 @@ For example:
 The available options are:
 
 ```c
-#define MLPICO_OPTIMIZE B10000000 /* Enables PROGMEM compatibility for `__AVR__` MCUs */
-#define MLPICO_OPTIMIZE B01000000 /* Enables `double` instead of `float` precision    */
-#define MLPICO_OPTIMIZE B00100000 /* Enables `int16_t` quantization                   */
-#define MLPICO_OPTIMIZE B00010000 /* Enables `int8_t` quantization                    */
-#define MLPICO_OPTIMIZE B00001000 /* Disables the use of biases                       */
-#define MLPICO_OPTIMIZE B00000100 /* Enables the use of multiple biases               */
+#define MLPICO_OPTIMIZE B10000000 /* 0x80 Enables PROGMEM compatibility for __AVR__ MCUs */
+#define MLPICO_OPTIMIZE B01000000 /* 0x40 Enables `double` instead of `float` precision  */
+#define MLPICO_OPTIMIZE B00100000 /* 0x20 Enables `int16_t` quantization                 */
+#define MLPICO_OPTIMIZE B00010000 /* 0x10 Enables `int8_t` quantization                  */
+#define MLPICO_OPTIMIZE B00001000 /* 0x8  Disables the use of biases                     */
+#define MLPICO_OPTIMIZE B00000100 /* 0x4  Enables the use of multiple biases             */
 ```
+
+> [!TIP]
+> [Binary literals ](https://en.cppreference.com/c/language/integer_constant) *(0b...)* are not part of the ANSI C standard. If your compiler doesn't support them as an extension, use hexadecimal notation instead. Most modern compilers such as GCC, support binary literals as an extension even when compiling with `-std=c89`, although relying on such extensions may reduce portability.
 
 <sup> *(See also examples: [progmem][1], [quantization][2], [no biases][3], [multiple biases][4])* </sup> 
 

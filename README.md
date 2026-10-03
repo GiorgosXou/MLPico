@@ -26,18 +26,18 @@ To enables or disable core functionality, simply `#define MLPICO_OPTIMIZE` befor
 For example:
 
 ```c
-#define MLPICO_OPTIMIZE B10011000 /* == PROGMEM + int8_t quantization + no biases */
+#define MLPICO_OPTIMIZE 0B10011000 /* == PROGMEM + int8_t quantization + no biases */
 ```
 
 The available options are:
 
 ```c
-#define MLPICO_OPTIMIZE B10000000 /* 0x80 Enables PROGMEM compatibility for __AVR__ MCUs */
-#define MLPICO_OPTIMIZE B01000000 /* 0x40 Enables `double` instead of `float` precision  */
-#define MLPICO_OPTIMIZE B00100000 /* 0x20 Enables `int16_t` quantization                 */
-#define MLPICO_OPTIMIZE B00010000 /* 0x10 Enables `int8_t` quantization                  */
-#define MLPICO_OPTIMIZE B00001000 /* 0x8  Disables the use of biases                     */
-#define MLPICO_OPTIMIZE B00000100 /* 0x4  Enables the use of multiple biases             */
+#define MLPICO_OPTIMIZE 0B10000000 /* 0x80 Enables PROGMEM compatibility for __AVR__ MCUs */
+#define MLPICO_OPTIMIZE 0B01000000 /* 0x40 Enables `double` instead of `float` precision  */
+#define MLPICO_OPTIMIZE 0B00100000 /* 0x20 Enables `int16_t` quantization                 */
+#define MLPICO_OPTIMIZE 0B00010000 /* 0x10 Enables `int8_t` quantization                  */
+#define MLPICO_OPTIMIZE 0B00001000 /* 0x8  Disables the use of biases                     */
+#define MLPICO_OPTIMIZE 0B00000100 /* 0x4  Enables the use of multiple biases             */
 ```
 
 > [!TIP]
@@ -94,7 +94,7 @@ void main(){ MLPico mlp = {buffer, activation_functions, /* ... */ }; }
  <sup> *(See also examples: [multiple functions][5], [single core function][6])* </sup> 
 
 #### Main Struct & Functions:
-Note that wherever you see `DFLOAT`, it means `float` by default. If double precision is enabled *(via `MLPICO_OPTIMIZE B01`)*, `DFLOAT` instead means `double`. The same goes for `IDFLOAT`, with the only difference being that when int-quantization is enabled it instead means `int16_t` or `int8_t` accordingly.
+Note that wherever you see `DFLOAT`, it means `float` by default. If double precision is enabled *(via `MLPICO_OPTIMIZE 0B01`)*, `DFLOAT` instead means `double`. The same goes for `IDFLOAT`, with the only difference being that when int-quantization is enabled it instead means `int16_t` or `int8_t` accordingly.
 
 ```c
 typedef struct
